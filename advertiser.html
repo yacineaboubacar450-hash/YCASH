@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annonceur - YCash Empire</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #00f2fe;
+            --primary-dark: #00d4ff;
+            --accent: #ff00cc;
+            --success: #00ff88;
+            --danger: #ff5757;
+            --warning: #ffc107;
+            --dark: #0a0e27;
+            --darker: #0f1729;
+            --card-bg: rgba(20, 30, 60, 0.6);
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a2847 50%, #0d1629 100%);
+            background-attachment: fixed;
+            color: white;
+            min-height: 100vh;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 10px 18px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-link {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            background: var(--glass);
+        }
+
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #ccc;
+            font-size: 1rem;
+        }
+
+        #message-container {
+            margin-bottom: 25px;
+        }
+
+        .message {
+            padding: 15px 20px;
+            border-radius: 12px;
+            animation: slideDown 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid;
+        }
+
+        .message.success {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .message.error {
+            background: rgba(255, 87, 87, 0.1);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255, 87, 87, 0.1), rgba(255, 0, 204, 0.1));
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--danger);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(255, 87, 87, 0.15);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #aaa;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--danger), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            border-bottom: 2px solid var(--glass-border);
+            padding-bottom: 20px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #aaa;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -23px;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover,
+        .tab-btn.active {
+            color: var(--danger);
+            border-bottom-color: var(--danger);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section {
+            background: linear-gradient(135deg, rgba(255, 87, 87, 0.05), rgba(255, 0, 204, 0.05));
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .section h3 {
+            color: var(--danger);
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 12px 15px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--danger);
+            box-shadow: 0 0 20px rgba(255, 87, 87, 0.2);
+            background: rgba(255, 87, 87, 0.05);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-select option {
+            background: var(--darker);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #00dd66);
+            color: var(--dark);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .campaigns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .campaign-card {
+            background: var(--card-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            transition: 0.3s;
+        }
+
+        .campaign-card:hover {
+            border-color: var(--danger);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(255, 87, 87, 0.15);
+        }
+
+        .campaign-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, var(--danger), var(--danger));
+            height: 100%;
+        }
+
+        .btn-small {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--primary);
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .btn-small:hover {
+            border-color: var(--primary);
+            background: rgba(0, 242, 254, 0.05);
+        }
+
+        .btn-small.danger {
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 60px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--glass-border);
+            border-top: 3px solid var(--danger);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            main { margin-top: 100px; padding: 20px 15px; }
+            .hero h1 { font-size: 1.8rem; }
+            .campaigns-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo">📢 ANNONCEUR</div>
+            <div>
+                <div class="user-card" id="user-card" style="display: none;">
+                    <div>
+                        <div style="font-size: 0.85rem; font-weight: 700;">Annonceur</div>
+                        <div style="font-size: 0.85rem; color: #aaa;" id="user-email-header">user@gmail.com</div>
+                    </div>
+                </div>
+                <a href="index.html" class="back-link">← Accueil</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+
+            <section class="hero">
+                <h1>📢 Créez vos Campagnes</h1>
+                <p>Atteignez des milliers d'utilisateurs et développez votre activité</p>
+            </section>
+
+            <div id="message-container"></div>
+
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-label">Solde Publicitaire</div>
+                    <div class="stat-value" id="stat-adv-balance">0.00$</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-label">Campagnes Actives</div>
+                    <div class="stat-value" id="stat-active-campaigns">0</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-label">Impressions</div>
+                    <div class="stat-value" id="stat-impressions">0</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-label">Dépensé ce mois</div>
+                    <div class="stat-value" id="stat-monthly-spent">0.00$</div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('create-surf')">🏄 Créer Surf Ads</button>
+                <button class="tab-btn" onclick="switchTab('create-task')">📝 Créer Mission</button>
+                <button class="tab-btn" onclick="switchTab('my-campaigns')">📊 Mes Campagnes</button>
+            </div>
+
+            <div id="create-surf" class="tab-content active">
+                <div class="section">
+                    <h3>🌐 Nouvelle Campagne Surf Ads</h3>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Titre</label>
+                            <input type="text" id="surf-title" class="form-input" placeholder="ex: Netflix Premium">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">URL</label>
+                            <input type="url" id="surf-url" class="form-input" placeholder="https://exemple.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Catégorie</label>
+                            <select id="surf-category" class="form-select">
+                                <option value="Entertainment">🎬 Entertainment</option>
+                                <option value="Finance">💰 Finance</option>
+                                <option value="Freelance">💼 Freelance</option>
+                                <option value="Affiliate">🔗 Affiliate</option>
+                                <option value="E-commerce">🛍️ E-commerce</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Durée</label>
+                            <select id="surf-duration" class="form-select">
+                                <option value="15">15 Secondes (0.0005$/vue)</option>
+                                <option value="30">30 Secondes (0.0010$/vue)</option>
+                                <option value="60">60 Secondes (0.0020$/vue)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Nombre de vues</label>
+                            <input type="number" id="surf-clicks" class="form-input" placeholder="100" min="1">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea id="surf-description" class="form-textarea" placeholder="Décrivez votre offre..."></textarea>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(0, 242, 254, 0.1); border: 1px solid var(--primary); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                        <p style="color: var(--primary); font-weight: bold;">💡 Coût estimé: <span id="surf-cost-estimate">0.00$</span></p>
+                    </div>
+
+                    <button class="btn-success" onclick="createSurf()">🚀 LANCER</button>
+                </div>
+            </div>
+
+            <div id="create-task" class="tab-content">
+                <div class="section">
+                    <h3>📝 Nouvelle Mission</h3>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Titre</label>
+                            <input type="text" id="task-title" class="form-input" placeholder="ex: S'abonner à Telegram">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Catégorie</label>
+                            <select id="task-category" class="form-select">
+                                <option value="Social">📱 Social</option>
+                                <option value="Survey">📋 Sondage</option>
+                                <option value="Referral">🤝 Parrainage</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea id="task-description" class="form-textarea" placeholder="Expliquez..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Récompense ($)</label>
+                            <input type="number" id="task-reward" class="form-input" placeholder="0.50" step="0.01">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Nombre de places</label>
+                            <input type="number" id="task-limit" class="form-input" placeholder="100" min="1">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Validation</label>
+                            <select id="task-validation" class="form-select">
+                                <option value="manual">📋 Manuelle</option>
+                                <option value="auto">✅ Automatique</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(0, 242, 254, 0.1); border: 1px solid var(--primary); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                        <p style="color: var(--primary); font-weight: bold;">💡 Coût estimé: <span id="task-cost-estimate">0.00$</span></p>
+                    </div>
+
+                    <button class="btn-success" onclick="createTask()">🚀 PUBLIER</button>
+                </div>
+            </div>
+
+            <div id="my-campaigns" class="tab-content">
+                <div id="campaigns-container"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 YCash Empire - Plateforme de publicités rémunérées</p>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import {
+            getFirestore, doc, getDoc, setDoc, collection, query, where, getDocs, updateDoc, increment, serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAwPBl7Cq2v_fyza9d3o_SwvYbDAk4hzcA",
+            authDomain: "ycash-enpire-v2.firebaseapp.com",
+            projectId: "ycash-enpire-v2",
+            storageBucket: "ycash-enpire-v2.firebasestorage.app",
+            messagingSenderId: "697841513435",
+            appId: "1:697841513435:web:b5a808cf8572e96c7f6dfe"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let advertiserBalance = 0;
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                alert("Accès annonceur requis");
+                window.location.href = "index.html";
+                return;
+            }
+
+            currentUser = user;
+            document.getElementById('user-card').style.display = 'flex';
+            document.getElementById('user-email-header').innerText = user.email;
+
+            await loadAdvertiserData();
+        });
+
+        async function loadAdvertiserData() {
+            try {
+                const userRef = doc(db, "users", currentUser.uid);
+                const userSnap = await getDoc(userRef);
+
+                if (userSnap.exists()) {
+                    advertiserBalance = userSnap.data().balance || 0;
+                    document.getElementById('stat-adv-balance').innerText = advertiserBalance.toFixed(2) + '$';
+                }
+
+                const surfsRef = collection(
